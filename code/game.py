@@ -8,7 +8,7 @@ from code.menu import Menu
 class Game:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode(size=(900, 680))
+        self.window = pygame.display.set_mode(size=(1920, 1080))
 
     def run(self):
         while True:
