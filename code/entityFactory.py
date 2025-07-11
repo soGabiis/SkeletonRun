@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from code.Const import WIN_WIDTH, WIN_HEIGHT
 from code.background import Background
+from code.enemy import Enemy
 from code.player import Player
 
 
@@ -19,6 +20,13 @@ class EntityFactory:
                 list_bg.append(bg2)
             return list_bg
 
-
         elif entity_name == 'Player1':
             return [Player('MoveSkeleton/0', position)]
+
+        elif entity_name == 'Enemy1':  # Golem
+            paths = [f'./asset/Golem/Golem{i:02d}.png' for i in range(18)]
+            return Enemy('Enemy1', paths, (WIN_WIDTH + 10, 530 - 200))  # Altura ajustada
+
+        elif entity_name == 'Enemy2':  # Wraith
+            paths = [f'./asset/Wraith/Wraith{i:02d}.png' for i in range(12)]
+            return Enemy('Enemy2', paths, (WIN_WIDTH + 10, 550 - 200))

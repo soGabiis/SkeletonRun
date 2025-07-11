@@ -89,7 +89,7 @@ class Player:
             self.on_ground = True
             self.is_jumping = False
 
-        # Lógica de animação
+        # Animação
         self.frame_timer += 1
         if self.frame_timer >= self.frame_delay:
             self.frame_timer = 0

@@ -3,9 +3,11 @@
 from tkinter.font import Font
 import pygame
 from pygame import Surface, Rect
+import random
 
-from code.Const import COLOR_SUBMENU, WIN_HEIGHT, COLOR_MENU
+from code.Const import COLOR_SUBMENU, WIN_HEIGHT, COLOR_MENU, EVENT_ENEMY, SPAWN_TIME
 from code.entityFactory import EntityFactory
+
 
 class Level:
     def __init__(self, window, name, game_mode):
@@ -14,11 +16,11 @@ class Level:
         self.game_mode = game_mode
         self.entity_list = EntityFactory.get_entity('Level1Bg')
 
-        # Instancia player na posição X=100, Y=300 menos altura do sprite para ficar em cima do chão
         player_start_y = 300 - 200  # 200 é a altura do sprite do player (redimensionado no player.py)
         self.entity_list.extend(EntityFactory.get_entity('Player1', (100, player_start_y)))
 
         self.timeout = 20000
+        pygame.time.set_timer(EVENT_ENEMY, SPAWN_TIME)
 
     def run(self):
         clock = pygame.time.Clock()
@@ -31,6 +33,9 @@ class Level:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
+                if event.type == EVENT_ENEMY:
+                    choice = random.choice(('Enemy1', 'Enemy2'))
+                    self.entity_list.append(EntityFactory.get_entity(choice))
 
             self.window.fill((0, 0, 0))
 
