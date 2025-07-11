@@ -1,2 +1,12 @@
+#C
+COLOR_MENU = (173, 218, 255)
+COLOR_SUBMENU = (255, 255, 255)
+
+#M
+MENU_OPTION = ('NEW GAME',
+               'SCORE',
+               'EXIT')
+
+#W
 WIN_WIDTH = 1920
 WIN_HEIGHT = 1080
