@@ -1,10 +1,10 @@
-#C
+# C
 import pygame
 
 COLOR_MENU = (173, 218, 255)
 COLOR_SUBMENU = (255, 255, 255)
 
-#E
+# E
 EVENT_ENEMY = pygame.USEREVENT + 1
 
 ENTITY_SPEED = {
@@ -20,17 +20,31 @@ ENTITY_SPEED = {
     'Enemy2': 6,
 }
 
-#M
+ENTITY_HEALTH = {
+    'Level1Bg0': 999,
+    'Level1Bg1': 999,
+    'Level1Bg2': 999,
+    'Level1Bg3': 999,
+    'Level1Bg4': 999,
+    'Level1Bg5': 999,
+    'Level1Bg6': 999,
+    'Player1': 300,
+    'Player1Sword': 1,
+    'Enemy1': 50,
+    'Enemy2': 60,
+    }
+
+# M
 MENU_OPTION = ('NEW GAME',
                'SCORE',
                'EXIT')
 
-#S
-SPAWN_TIME = 4000
+# S
+SPAWN_TIME = 3000
 
-#W
+# W
 WIN_WIDTH = 1920
 WIN_HEIGHT = 1080
 
-#Y
+# Y
 COLOR_SELECTION = (234, 168, 77)

@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import pygame
+
+from code.Const import ENTITY_SPEED
 from code.entity import Entity
 
 
 class Enemy(Entity):
     def __init__(self, enemy_type: str, frame_paths: list[str], position: tuple):
+        super().__init__(enemy_type, position)  # <-- ESSENCIAL!
+
         self.enemy_type = enemy_type
 
         # Carregar e transformar os frames
@@ -24,14 +28,12 @@ class Enemy(Entity):
         self.frame_timer = 0
         self.frame_delay = 5
 
-        # Inicializa a superfície e retângulo
         self.surf = self.frames[0]
         self.rect = self.surf.get_rect(topleft=position)
 
     def move(self):
-        self.rect.centerx -= self.speed()
+        self.rect.centerx -= ENTITY_SPEED[self.name]
 
-        # Atualiza animação
         self.frame_timer += 1
         if self.frame_timer >= self.frame_delay:
             self.frame_timer = 0

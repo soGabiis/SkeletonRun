@@ -1,11 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame
-from code.Const import ENTITY_SPEED, WIN_WIDTH
+from code.entity import Entity
+from code.Const import WIN_WIDTH, ENTITY_SPEED
 
-class Player:
+
+class Player(Entity):
     def __init__(self, name: str, position: tuple):
-        # Frames de animações
+        super().__init__(name, position)
+
+        # Animações
         self.idle_frames = [
             pygame.transform.scale(
                 pygame.image.load(f'./asset/MoveSkeleton/{i}.png').convert_alpha(),
@@ -37,11 +41,6 @@ class Player:
         self.surf = self.idle_frames[0]
         self.rect = self.surf.get_rect(topleft=position)
 
-        # Animação
-        self.current_frame = 0
-        self.frame_timer = 0
-        self.frame_delay = 5
-
         # Física
         self.speed = ENTITY_SPEED['Player1']
         self.vel_y = 0
@@ -56,21 +55,26 @@ class Player:
         self.is_attacking = False
         self.attack_frame = 0
 
+        # Animação
+        self.current_frame = 0
+        self.frame_timer = 0
+        self.frame_delay = 5
+
+        # Vida
+        self.health = 2  # Número de vidas do jogador
+
     def move(self):
         keys = pygame.key.get_pressed()
 
-        # Iniciar ataque se espaço for pressionado e não estiver atacando
         if keys[pygame.K_SPACE] and not self.is_attacking:
             self.is_attacking = True
             self.attack_frame = 0
 
-        # Pulo
         if keys[pygame.K_UP] and self.on_ground:
             self.vel_y = self.jump_strength
             self.on_ground = False
             self.is_jumping = True
 
-        # Movimento lateral
         self.is_running = False
         if keys[pygame.K_LEFT] and self.rect.left > 0:
             self.rect.x -= self.speed
@@ -82,14 +86,13 @@ class Player:
         # Gravidade
         self.vel_y += self.gravity
         self.rect.y += self.vel_y
-
         if self.rect.bottom >= self.ground_y:
             self.rect.bottom = self.ground_y
             self.vel_y = 0
             self.on_ground = True
             self.is_jumping = False
 
-        # Animação
+        # Animações
         self.frame_timer += 1
         if self.frame_timer >= self.frame_delay:
             self.frame_timer = 0

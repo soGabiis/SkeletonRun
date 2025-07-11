@@ -7,6 +7,7 @@ import random
 
 from code.Const import COLOR_SUBMENU, WIN_HEIGHT, COLOR_MENU, EVENT_ENEMY, SPAWN_TIME
 from code.entityFactory import EntityFactory
+from code.entityMediator import entityMediator
 
 
 class Level:
@@ -48,6 +49,9 @@ class Level:
             self.level_text(50, f'entidades: {len(self.entity_list)}', COLOR_MENU, (10, WIN_HEIGHT - 45))
             pygame.display.flip()
             clock.tick(60)
+            # Collision
+            entityMediator.verify_collision(entity_list=self.entity_list)
+            entityMediator.verify_health(entity_list=self.entity_list)
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
