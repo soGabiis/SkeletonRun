@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from code.Const import WIN_WIDTH
+from code.Const import WIN_WIDTH, WIN_HEIGHT
 from code.background import Background
+from code.player import Player
 
 
 class EntityFactory:
@@ -17,3 +18,7 @@ class EntityFactory:
                 list_bg.append(bg1)
                 list_bg.append(bg2)
             return list_bg
+
+
+        elif entity_name == 'Player1':
+            return [Player('MoveSkeleton/0', position)]
