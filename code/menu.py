@@ -10,7 +10,7 @@ from code.Const import WIN_WIDTH, COLOR_MENU, MENU_OPTION, COLOR_SUBMENU, COLOR_
 class Menu:
     def __init__(self, window):
         self.window = window
-        self.surf = pygame.image.load('./asset/Battleground3.png')
+        self.surf = pygame.image.load('./asset/Battleground3.png').convert_alpha()
         self.rect = self.surf.get_rect(left=0, top=0)
 
     def run(self, ):
@@ -51,7 +51,7 @@ class Menu:
 
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
-        text_font: Font = pygame.font.SysFont(name="Comic Sans MS", size=text_size)
+        text_font: Font = pygame.font.SysFont(name="8-Bit-Madness", size=text_size)
         text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
         text_rect: Rect = text_surf.get_rect(center=text_center_pos)
         self.window.blit(source=text_surf, dest=text_rect)
