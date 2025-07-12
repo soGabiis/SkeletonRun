@@ -19,7 +19,7 @@ class Level:
         self.game_mode = game_mode
         self.entity_list = EntityFactory.get_entity('Level1Bg')
 
-        player_start_y = 300 - 200  # 200 é a altura do sprite do player (redimensionado no player.py)
+        player_start_y = 300 - 200  # altura redimensionado do player
         self.entity_list.extend(EntityFactory.get_entity('Player1', (100, player_start_y)))
 
         self.timeout = 20000
@@ -56,14 +56,12 @@ class Level:
             for ent in self.entity_list:
                 ent.move()
 
-                # Se for player, adiciona entidades criadas por ele (como outras armas ou efeitos)
                 if isinstance(ent, Player):
                     self.entity_list.extend(ent.spawned_entities)
                     ent.spawned_entities.clear()
 
                 self.window.blit(ent.surf, ent.rect)
 
-            # Remove as espadas logo após desenhar todas as entidades para que durem apenas 1 frame
             self.entity_list = [ent for ent in self.entity_list if not isinstance(ent, PlayerShot)]
 
             self.level_text(50, f'{self.name} - Timeout: {self.timeout / 1000 :.1f}s', COLOR_MENU, (10, 5))

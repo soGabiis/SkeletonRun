@@ -18,7 +18,7 @@ class entityMediator:
                 for target in entity_list:
                     if isinstance(target, Enemy) and ent.rect.colliderect(target.rect):
                         target.health -= 1
-                        ent.health = 0  # Remove a espada depois de bater
+                        ent.health = 0
 
     @staticmethod
     def verify_health(entity_list: list):

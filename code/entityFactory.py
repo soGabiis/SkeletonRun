@@ -21,12 +21,12 @@ class EntityFactory:
             return list_bg
 
         elif entity_name == 'Player1':
-            from code.player import Player  # Import local para evitar import circular
+            from code.player import Player
             return [Player('MoveSkeleton/0', position)]
 
         elif entity_name == 'Enemy1':  # Golem
             paths = [f'./asset/Golem/Golem{i:02d}.png' for i in range(18)]
-            return Enemy('Enemy1', paths, (WIN_WIDTH + 10, 530 - 200))  # Altura ajustada
+            return Enemy('Enemy1', paths, (WIN_WIDTH + 10, 530 - 200))
 
         elif entity_name == 'Enemy2':  # Wraith
             paths = [f'./asset/Wraith/Wraith{i:02d}.png' for i in range(12)]
