@@ -20,7 +20,7 @@ class Game:
 
             if choice == M_OPTION[0]:
                 level = Level(self.window, 'Level1', choice)
-                level.run()  # Aqui o score será salvo se o player morrer
+                level.run()  # score saved if the player dies
             elif choice == M_OPTION[1]:
                 score.show_score()
             elif choice == M_OPTION[2]:
