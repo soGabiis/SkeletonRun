@@ -7,9 +7,9 @@ class PlayerShot(Entity):
         self.surf = pygame.Surface((40, 25), pygame.SRCALPHA)
         self.rect = self.surf.get_rect(topleft=position)
 
-        self.lifetime = 0  # contador de frames que a espada existe
+        self.lifetime = 0
 
     def move(self):
         self.lifetime += 1
-        if self.lifetime > 3:
-            self.health = 0  # remove a espada após 3 frames
+        if self.lifetime > 10:  # remove a sword after 10 frames
+            self.health = 0

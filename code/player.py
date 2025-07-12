@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import pygame
 from code.entity import Entity
-from code.Const import WIN_WIDTH, ENTITY_SPEED
+from code.Const import WIN_WIDTH, E_SPEED
 from code.playerSword import PlayerShot
 
 
@@ -15,7 +15,10 @@ class Player(Entity):
         self.invulnerable = False
         self.invulnerable_timer = 0
 
-        # Animações
+        # Animations move, run and jump
+        self.jump_sound = pygame.mixer.Sound('./asset/380471__acebrian__jump.wav')
+        self.jump_sound.set_volume(0.4)
+
         self.idle_frames = [
             pygame.transform.scale(
                 pygame.image.load(f'./asset/MoveSkeleton/{i}.png').convert_alpha(),
@@ -51,27 +54,26 @@ class Player(Entity):
         self.rect = self.surf.get_rect(topleft=position)
         self.mask = pygame.mask.from_surface(self.surf)
 
-        # Física
-        self.speed = ENTITY_SPEED['Player1']
+        # Physical
+        self.speed = E_SPEED['Player1']
         self.vel_y = 0
         self.gravity = 1
         self.jump_strength = -20
         self.on_ground = True
         self.ground_y = 550
 
-        # Estados
         self.is_running = False
         self.is_jumping = False
         self.is_attacking = False
         self.attack_frame = 0
 
-        # Animação
+        # animation
         self.current_frame = 0
         self.frame_timer = 0
         self.frame_delay = 5
 
-        # Vida
-        self.health = 2  # Número de vidas do jogador
+        # life
+        self.health = 2  # Number of player lives
 
     def move(self):
         keys = pygame.key.get_pressed()
@@ -88,11 +90,12 @@ class Player(Entity):
         elif not keys[pygame.K_SPACE]:
             self.attack_pressed = False
 
-        # Movimento e física
+        # Movement and Physics
         if keys[pygame.K_UP] and self.on_ground:
             self.vel_y = self.jump_strength
             self.on_ground = False
             self.is_jumping = True
+            self.jump_sound.play()
 
         self.is_running = False
         if keys[pygame.K_LEFT] and self.rect.left > 0:
@@ -110,7 +113,7 @@ class Player(Entity):
             self.on_ground = True
             self.is_jumping = False
 
-        # Animações
+        # Animations
         self.frame_timer += 1
         if self.frame_timer >= self.frame_delay:
             self.frame_timer = 0
@@ -140,7 +143,7 @@ class Player(Entity):
                 self.surf = self.idle_frames[self.current_frame]
                 self.update_mask()
 
-            # Invulnerabilidade temporária
+            # Temporary invulnerability
             if self.invulnerable:
                 self.invulnerable_timer -= 1
                 if self.invulnerable_timer <= 0:

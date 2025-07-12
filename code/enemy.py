@@ -3,7 +3,7 @@
 
 import pygame
 
-from code.Const import ENTITY_SPEED
+from code.Const import E_SPEED
 from code.entity import Entity
 
 
@@ -16,11 +16,11 @@ class Enemy(Entity):
 
         for path in frame_paths:
             img = pygame.image.load(path).convert_alpha()
-            # Redimensiona mantendo proporção
+            # Resize maintaining proportion
             ratio = 200 / img.get_height()
             width = int(img.get_width() * ratio)
             img = pygame.transform.scale(img, (width, 200))
-            img = pygame.transform.flip(img, True, False)  # Espelha para esquerda
+            img = pygame.transform.flip(img, True, False)  # mirror the enemy to the left
             self.frames.append(img)
 
         self.current_frame = 0
@@ -33,7 +33,7 @@ class Enemy(Entity):
         self.mask = pygame.mask.from_surface(self.surf)
 
     def move(self):
-        self.rect.centerx -= ENTITY_SPEED[self.name]
+        self.rect.centerx -= E_SPEED[self.name]
 
         self.frame_timer += 1
         if self.frame_timer >= self.frame_delay:
@@ -44,5 +44,5 @@ class Enemy(Entity):
 
 
     def speed(self):
-        from code.Const import ENTITY_SPEED
-        return ENTITY_SPEED[self.enemy_type]
+        from code.Const import E_SPEED
+        return E_SPEED[self.enemy_type]

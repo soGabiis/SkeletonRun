@@ -4,7 +4,7 @@ import pygame.image
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Const import WIN_WIDTH, COLOR_MENU, MENU_OPTION, COLOR_SUBMENU, COLOR_SELECTION
+from code.Const import WIN_WIDTH, C_MENU, M_OPTION, C_SUBMENU, COLOR_SELECTION
 
 
 class Menu:
@@ -20,14 +20,14 @@ class Menu:
         while True:
             # DRAW IMAGES
             self.window.blit(source=self.surf, dest=self.rect)
-            self.menu_text(200, "Skeleton", COLOR_MENU, ((WIN_WIDTH / 2), 70))
-            self.menu_text(200, "Run", COLOR_MENU, ((WIN_WIDTH / 2), 200))
+            self.menu_text(200, "Skeleton", C_MENU, ((WIN_WIDTH / 2), 70))
+            self.menu_text(200, "Run", C_MENU, ((WIN_WIDTH / 2), 200))
 
-            for i in range(len(MENU_OPTION)):
+            for i in range(len(M_OPTION)):
                 if i == menu_option:
-                    self.menu_text(100, MENU_OPTION[i], COLOR_SELECTION, ((WIN_WIDTH / 2), 720 + 100 * i))
+                    self.menu_text(100, M_OPTION[i], COLOR_SELECTION, ((WIN_WIDTH / 2), 720 + 100 * i))
                 else:
-                    self.menu_text(100, MENU_OPTION[i], COLOR_SUBMENU, ((WIN_WIDTH / 2), 720 + 100 * i))
+                    self.menu_text(100, M_OPTION[i], C_SUBMENU, ((WIN_WIDTH / 2), 720 + 100 * i))
             pygame.display.flip()
 
             # Check for all events
@@ -37,7 +37,7 @@ class Menu:
                     quit()  # End Pygame
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_DOWN: # DOWN KEY
-                        if menu_option < len(MENU_OPTION) - 1:
+                        if menu_option < len(M_OPTION) - 1:
                             menu_option += 1
                         else:
                             menu_option = 0
@@ -45,9 +45,9 @@ class Menu:
                          if menu_option > 0:
                             menu_option -= 1
                          else:
-                             menu_option = len(MENU_OPTION) - 1
+                             menu_option = len(M_OPTION) - 1
                     if event.key == pygame.K_RETURN:  # ENTER
-                        return MENU_OPTION[menu_option]
+                        return M_OPTION[menu_option]
 
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import pygame
 
-from code.Const import WIN_WIDTH, ENTITY_SPEED
+from code.Const import WIN_WIDTH, E_SPEED
 from code.entity import Entity
 
 
@@ -14,6 +14,6 @@ class Background(Entity):
 
 
     def move(self, ):
-        self.rect.centerx -= ENTITY_SPEED[self.name]
+        self.rect.centerx -= E_SPEED[self.name]
         if self.rect.right <= 0:
             self.rect.left += self.rect.width * 2

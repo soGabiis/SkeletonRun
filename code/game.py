@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame
-from code.Const import WIN_WIDTH, WIN_HEIGHT, MENU_OPTION
+from code.Const import WIN_WIDTH, WIN_HEIGHT, M_OPTION
+from code.Score import Score
 from code.menu import Menu
 from code.level import Level
 
@@ -13,13 +14,15 @@ class Game:
 
     def run(self):
         while True:
+            score = Score(self.window)
             menu = Menu(self.window)
             choice = menu.run()
 
-            if choice == MENU_OPTION[0]:
+            if choice == M_OPTION[0]:
                 level = Level(self.window, 'Level1', choice)
-                level.run()
-            elif choice == MENU_OPTION[2]:
+                level.run()  # Aqui o score será salvo se o player morrer
+            elif choice == M_OPTION[1]:
+                score.show_score()
+            elif choice == M_OPTION[2]:
                 pygame.quit()
                 quit()
-
