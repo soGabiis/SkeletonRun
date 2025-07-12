@@ -46,7 +46,8 @@ class Level:
                         # Encontra o player na lista
                         player = next((e for e in self.entity_list if isinstance(e, Player)), None)
                         if player:
-                            sword_x = player.rect.right - 20
+                            if player.facing_right:
+                                sword_x = player.rect.right - 20
                             sword_y = player.rect.top + 70
                             sword = EntityFactory.get_entity('Player1Sword', (sword_x, sword_y))
                             self.entity_list.append(sword)
@@ -62,8 +63,6 @@ class Level:
 
                 self.window.blit(ent.surf, ent.rect)
 
-            self.entity_list = [ent for ent in self.entity_list if not isinstance(ent, PlayerShot)]
-
             self.level_text(50, f'{self.name} - Timeout: {self.timeout / 1000 :.1f}s', COLOR_MENU, (10, 5))
             self.level_text(50, f'fps: {clock.get_fps() :.0f}', COLOR_MENU, (10, WIN_HEIGHT - 75))
             self.level_text(50, f'entidades: {len(self.entity_list)}', COLOR_MENU, (10, WIN_HEIGHT - 45))
@@ -74,6 +73,12 @@ class Level:
             # Checa colisões e saúde das entidades
             entityMediator.verify_collision(entity_list=self.entity_list)
             entityMediator.verify_health(entity_list=self.entity_list)
+
+            # Verifica se o jogador morreu
+            player = next((e for e in self.entity_list if isinstance(e, Player)), None)
+            if player is None or player.health <= 0:
+                pygame.time.delay(1000)
+                return  # <- Volta ao menu
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)

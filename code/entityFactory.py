@@ -33,4 +33,4 @@ class EntityFactory:
             return Enemy('Enemy2', paths, (WIN_WIDTH + 10, 550 - 200))
 
         elif entity_name == 'Player1Sword':
-            return PlayerShot('MoveSkeleton/Slashing_000', position)
+            return PlayerShot('Player1Sword', position)

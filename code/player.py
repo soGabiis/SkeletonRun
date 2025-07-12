@@ -10,6 +10,11 @@ class Player(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
 
+        self.facing_right = True
+
+        self.invulnerable = False
+        self.invulnerable_timer = 0
+
         # Animações
         self.idle_frames = [
             pygame.transform.scale(
@@ -44,6 +49,7 @@ class Player(Entity):
         self.spawned_entities = []
         self.surf = self.idle_frames[0]
         self.rect = self.surf.get_rect(topleft=position)
+        self.mask = pygame.mask.from_surface(self.surf)
 
         # Física
         self.speed = ENTITY_SPEED['Player1']
@@ -113,6 +119,7 @@ class Player(Entity):
             if self.is_attacking:
                 if self.attack_frame < len(self.attack_frames):
                     self.surf = self.attack_frames[self.attack_frame]
+                    self.update_mask()
                     self.attack_frame += 1
                 else:
                     self.is_attacking = False
@@ -121,11 +128,20 @@ class Player(Entity):
             elif self.is_jumping:
                 self.current_frame %= len(self.jump_frames)
                 self.surf = self.jump_frames[self.current_frame]
+                self.update_mask()
 
             elif self.is_running:
                 self.current_frame %= len(self.run_frames)
                 self.surf = self.run_frames[self.current_frame]
+                self.update_mask()
 
             else:
                 self.current_frame %= len(self.idle_frames)
                 self.surf = self.idle_frames[self.current_frame]
+                self.update_mask()
+
+            # Invulnerabilidade temporária
+            if self.invulnerable:
+                self.invulnerable_timer -= 1
+                if self.invulnerable_timer <= 0:
+                    self.invulnerable = False

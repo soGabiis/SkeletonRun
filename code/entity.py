@@ -13,7 +13,12 @@ class Entity(ABC):
         self.rect = pygame.Rect(position[0], position[1], 0, 0)
         self.surf = None
         self.health = 1
+        self.mask = None
 
     @abstractmethod
     def move(self):
         pass
+
+    def update_mask(self):
+        if self.surf:
+            self.mask = pygame.mask.from_surface(self.surf)
