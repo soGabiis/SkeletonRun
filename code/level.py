@@ -4,10 +4,12 @@ from tkinter.font import Font
 import pygame
 from pygame import Surface, Rect
 import random
+from code.player import Player
 
 from code.Const import COLOR_SUBMENU, WIN_HEIGHT, COLOR_MENU, EVENT_ENEMY, SPAWN_TIME
 from code.entityFactory import EntityFactory
 from code.entityMediator import entityMediator
+from code.playerSword import PlayerShot
 
 
 class Level:
@@ -34,22 +36,44 @@ class Level:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
+
                 if event.type == EVENT_ENEMY:
                     choice = random.choice(('Enemy1', 'Enemy2'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        # Encontra o player na lista
+                        player = next((e for e in self.entity_list if isinstance(e, Player)), None)
+                        if player:
+                            sword_x = player.rect.right - 20
+                            sword_y = player.rect.top + 70
+                            sword = EntityFactory.get_entity('Player1Sword', (sword_x, sword_y))
+                            self.entity_list.append(sword)
 
             self.window.fill((0, 0, 0))
 
             for ent in self.entity_list:
                 ent.move()
+
+                # Se for player, adiciona entidades criadas por ele (como outras armas ou efeitos)
+                if isinstance(ent, Player):
+                    self.entity_list.extend(ent.spawned_entities)
+                    ent.spawned_entities.clear()
+
                 self.window.blit(ent.surf, ent.rect)
+
+            # Remove as espadas logo após desenhar todas as entidades para que durem apenas 1 frame
+            self.entity_list = [ent for ent in self.entity_list if not isinstance(ent, PlayerShot)]
 
             self.level_text(50, f'{self.name} - Timeout: {self.timeout / 1000 :.1f}s', COLOR_MENU, (10, 5))
             self.level_text(50, f'fps: {clock.get_fps() :.0f}', COLOR_MENU, (10, WIN_HEIGHT - 75))
             self.level_text(50, f'entidades: {len(self.entity_list)}', COLOR_MENU, (10, WIN_HEIGHT - 45))
+
             pygame.display.flip()
             clock.tick(60)
-            # Collision
+
+            # Checa colisões e saúde das entidades
             entityMediator.verify_collision(entity_list=self.entity_list)
             entityMediator.verify_health(entity_list=self.entity_list)
 

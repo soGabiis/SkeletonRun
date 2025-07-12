@@ -30,8 +30,8 @@ ENTITY_HEALTH = {
     'Level1Bg6': 999,
     'Player1': 300,
     'Player1Sword': 1,
-    'Enemy1': 50,
-    'Enemy2': 60,
+    'Enemy1': 1,
+    'Enemy2': 1,
     }
 
 # M

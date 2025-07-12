@@ -1,24 +1,31 @@
-from code import entity
+from code.entity import Entity
 from code.enemy import Enemy
+from code.playerSword import PlayerShot
 
 
 class entityMediator:
 
     @staticmethod
-    def __verify_collision_window(ent: entity):
+    def __verify_collision_window(ent: Entity):
         if isinstance(ent, Enemy):
             if ent.rect.right < 0:
                 ent.health = 0
-        pass
 
     @staticmethod
-    def verify_collision(entity_list: list[entity]):
-        for i in range(len(entity_list)):
-            test_entity = entity_list[i]
-            entityMediator.__verify_collision_window(test_entity)
-
-    @staticmethod
-    def verify_health(entity_list: list[entity]):
+    def verify_collision(entity_list: list[Entity]):
         for ent in entity_list:
-            if ent.health <= 0:
-                entity_list.remove(ent)
+            if isinstance(ent, PlayerShot):
+                for target in entity_list:
+                    if isinstance(target, Enemy) and ent.rect.colliderect(target.rect):
+                        target.health -= 1
+                        ent.health = 0  # Remove a espada depois de bater
+
+    @staticmethod
+    def verify_health(entity_list: list):
+        to_remove = []
+        for ent in entity_list:
+            if hasattr(ent, 'health') and ent.health <= 0:
+                to_remove.append(ent)
+
+        for ent in to_remove:
+            entity_list.remove(ent)

@@ -3,7 +3,7 @@
 from code.Const import WIN_WIDTH, WIN_HEIGHT
 from code.background import Background
 from code.enemy import Enemy
-from code.player import Player
+from code.playerSword import PlayerShot
 
 
 class EntityFactory:
@@ -21,6 +21,7 @@ class EntityFactory:
             return list_bg
 
         elif entity_name == 'Player1':
+            from code.player import Player  # Import local para evitar import circular
             return [Player('MoveSkeleton/0', position)]
 
         elif entity_name == 'Enemy1':  # Golem
@@ -30,3 +31,6 @@ class EntityFactory:
         elif entity_name == 'Enemy2':  # Wraith
             paths = [f'./asset/Wraith/Wraith{i:02d}.png' for i in range(12)]
             return Enemy('Enemy2', paths, (WIN_WIDTH + 10, 550 - 200))
+
+        elif entity_name == 'Player1Sword':
+            return PlayerShot('MoveSkeleton/Slashing_000', position)

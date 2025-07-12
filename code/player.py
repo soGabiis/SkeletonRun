@@ -3,6 +3,7 @@
 import pygame
 from code.entity import Entity
 from code.Const import WIN_WIDTH, ENTITY_SPEED
+from code.playerSword import PlayerShot
 
 
 class Player(Entity):
@@ -38,6 +39,9 @@ class Player(Entity):
             ) for i in range(12)
         ]
 
+        self.attack_pressed = False
+
+        self.spawned_entities = []
         self.surf = self.idle_frames[0]
         self.rect = self.surf.get_rect(topleft=position)
 
@@ -69,7 +73,16 @@ class Player(Entity):
         if keys[pygame.K_SPACE] and not self.is_attacking:
             self.is_attacking = True
             self.attack_frame = 0
+            from code.entityFactory import EntityFactory
+            sword_x = self.rect.right - 20
+            sword_y = self.rect.top + 70
+            sword = EntityFactory.get_entity('Player1Sword', (sword_x, sword_y))
+            self.spawned_entities.append(sword)
 
+        elif not keys[pygame.K_SPACE]:
+            self.attack_pressed = False
+
+        # Movimento e física
         if keys[pygame.K_UP] and self.on_ground:
             self.vel_y = self.jump_strength
             self.on_ground = False
@@ -83,7 +96,6 @@ class Player(Entity):
             self.rect.x += self.speed
             self.is_running = True
 
-        # Gravidade
         self.vel_y += self.gravity
         self.rect.y += self.vel_y
         if self.rect.bottom >= self.ground_y:
